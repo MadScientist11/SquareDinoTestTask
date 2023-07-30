@@ -12,6 +12,7 @@
         {
             public const string PlayerPath = "Player";
             public const string ProjectilePath = "Projectile";
+            public const string EnemyPath = "Enemy";
 
         }
 

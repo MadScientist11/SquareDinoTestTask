@@ -7,11 +7,15 @@ namespace Game.Source.Services
     public interface IInputService : IService
     {
         event Action OnFireInputDetected;
+        Vector3 MousePosition { get; }
     }
 
     public class InputService : IInputService, IInitializableService, GameInput.IGameplayActions
     {
         public event Action OnFireInputDetected;
+        public Vector3 MousePosition => 
+            Application.isMobilePlatform ? Touchscreen.current.position.ReadValue() : Mouse.current.position.ReadValue();
+        
         
         private GameInput _input;
 

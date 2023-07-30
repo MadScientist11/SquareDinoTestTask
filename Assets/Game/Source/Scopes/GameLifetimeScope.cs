@@ -1,4 +1,5 @@
 using Game.Source.GameFSM;
+using Game.Source.LevelLogic;
 using Game.Source.Services;
 using UnityEngine;
 using VContainer;
@@ -9,7 +10,7 @@ namespace Game.Source.Scopes
     public class GameLifetimeScope : LifetimeScope
     {
         [SerializeField] private PlayerSpawnPoint _playerSpawnPoint;
-        [SerializeField] private WayPoints _wayPoints;
+        [SerializeField] private Level _level;
         
         protected override void Configure(IContainerBuilder builder)
         {
@@ -21,7 +22,7 @@ namespace Game.Source.Scopes
             builder.Register<InitGameState>(Lifetime.Singleton).AsSelf();
             
             builder.RegisterComponent(_playerSpawnPoint);
-            builder.RegisterComponent(_wayPoints);
+            builder.RegisterComponent(_level);
         }
     }
 }
