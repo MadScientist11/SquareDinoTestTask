@@ -10,7 +10,6 @@ namespace Game.Source.Scopes
         {
             builder.Register<SceneLoader>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<ProjectileFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AssetProvider>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<DataProvider>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<WindowManager>(Lifetime.Singleton).AsImplementedInterfaces();

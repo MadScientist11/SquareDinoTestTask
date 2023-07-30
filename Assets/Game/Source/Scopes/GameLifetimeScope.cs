@@ -15,6 +15,7 @@ namespace Game.Source.Scopes
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<GameFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<ProjectileFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LevelController>(Lifetime.Singleton).AsImplementedInterfaces();
             
             RegisterStateMachine(builder);
@@ -31,6 +32,7 @@ namespace Game.Source.Scopes
             builder.Register<InitGameState>(Lifetime.Singleton).AsSelf();
             builder.Register<MainScreenState>(Lifetime.Singleton).AsSelf();
             builder.Register<LevelState>(Lifetime.Singleton).AsSelf();
+            builder.Register<CompleteLevelState>(Lifetime.Singleton).AsSelf();
         }
     }
 }

@@ -1,8 +1,6 @@
 using System;
-using Game.Source.LevelLogic;
 using UnityEngine;
 using UnityEngine.AI;
-using VContainer;
 
 namespace Game.Source.PlayerLogic
 {
@@ -17,20 +15,7 @@ namespace Game.Source.PlayerLogic
 
 
         private bool _wayPointReached  = false;
-        private Level _level;
-
-        [Inject]
-        public void Construct(Level level)
-        {
-            _level = level;
-        }
-
-        private void Start()
-        {
-            //Set Speed..
-           SetDestination(_level.Locations[0].LocationWayPoint.Position);
-        }
-
+      
         private void Update()
         {
             if (IsDestinationReached() && !_wayPointReached)

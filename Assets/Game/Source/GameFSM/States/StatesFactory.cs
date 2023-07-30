@@ -19,7 +19,7 @@ namespace Game.Source.GameFSM
                 GameFlow.InitGame => _instantiator.Resolve<InitGameState>(),
                 GameFlow.MainScreenState => _instantiator.Resolve<MainScreenState>(),
                 GameFlow.StartLevel => _instantiator.Resolve<LevelState>(),
-                GameFlow.CompleteLevel => null,
+                GameFlow.CompleteLevel => _instantiator.Resolve<CompleteLevelState>(),
                 _ => throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null)
             };
         }

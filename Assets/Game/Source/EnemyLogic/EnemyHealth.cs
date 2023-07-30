@@ -2,7 +2,9 @@ using System;
 using Game.Source.LevelLogic;
 using Game.Source.PlayerLogic;
 using Game.Source.Services;
+using Game.Source.UI;
 using UnityEngine;
+using UnityEngine.UI;
 using VContainer;
 
 namespace Game.Source.EnemyLogic
@@ -17,7 +19,10 @@ namespace Game.Source.EnemyLogic
 
         [SerializeField] private Animator _enemyAnimator;
         [SerializeField] private BoxCollider _enemyCollider;
-        private int _currentHealth;
+
+        [SerializeField] private HpBar _hpBar;
+        
+        private float _currentHealth;
 
         private EnemyConfiguration _enemyConfiguration;
         private ILevelController _levelController;
@@ -37,13 +42,23 @@ namespace Game.Source.EnemyLogic
         public void TakeDamage(IDamageProvider damageProvider)
         {
             _currentHealth -= damageProvider.ProvideDamage();
+            float normalizedHealth = Mathf.Max(0, _currentHealth / _enemyConfiguration.MaxHealth);
+            _hpBar.SetValue(normalizedHealth); 
+            
             if (_currentHealth <= 0)
             {
-                _enemyCollider.enabled = false;
-                _enemyAnimator.enabled = false;
-                Enemy enemy = this.GetComponent<Enemy>();
-                _levelController.CurrentLocation.SetEnemyNeutralized(enemy);
+                Die();
+                return;
             }
+        }
+
+        private void Die()
+        {
+            _enemyCollider.enabled = false;
+            _enemyAnimator.enabled = false;
+            _hpBar.gameObject.SetActive(false);
+            Enemy enemy = this.GetComponent<Enemy>();
+            _levelController.CurrentLocation.SetEnemyNeutralized(enemy);
         }
     }
 }

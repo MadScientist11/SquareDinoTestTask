@@ -62,11 +62,6 @@ namespace Game.Source.PlayerLogic
             
             projectile.Initialize(damageProvider);
 
-            if (Physics.Raycast(ray, out var hit))
-            {
-                Transform objectHit = hit.transform;
-                // Do something with the object that was hit by the raycast.
-            }
         }
     }
 }

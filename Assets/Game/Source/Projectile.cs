@@ -1,9 +1,11 @@
 using System;
 using System.Security.Cryptography;
 using Game.Source.EnemyLogic;
+using Game.Source.LevelLogic;
 using Game.Source.PlayerLogic;
 using Game.Source.Services;
 using UnityEngine;
+using VContainer;
 
 namespace Game.Source
 {
@@ -27,7 +29,14 @@ namespace Game.Source
     public class Projectile : MonoBehaviour, IPoolable<Projectile>
     {
         private IDamageProvider _projectileDamageProvider;
+        private LevelBoundingBox _levelBoundingBox;
         public Action<Projectile> Release { get; set; }
+
+        [Inject]
+        public void Construct(Level level)
+        {
+            _levelBoundingBox = level.LevelBoundingBox;
+        }
 
         public void Initialize(IDamageProvider baseProvider)
         {
@@ -37,6 +46,11 @@ namespace Game.Source
         private void Update()
         {
             transform.Translate(-transform.forward*3 * Time.deltaTime);
+            
+            if (!_levelBoundingBox.Contains(this.transform.position))
+            {
+                ReleaseToPool();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -58,7 +72,7 @@ namespace Game.Source
             gameObject.SetActive(false);
         }
     
-        public void ReleaseToPool()
+        private void ReleaseToPool()
         {
             Release?.Invoke(this);
         }

@@ -8,11 +8,13 @@ namespace Game.Source.GameFSM
     {
         private readonly GameStateMachine _gameStateMachine;
         private readonly IInputService _inputService;
-        private IGameFactory _gameFactory;
+        private readonly IGameFactory _gameFactory;
+        private readonly ILevelController _levelController;
 
-        public LevelState(GameStateMachine gameStateMachine, IGameFactory gameFactory,
+        public LevelState(GameStateMachine gameStateMachine, IGameFactory gameFactory, ILevelController levelController,
             IInputService inputService)
         {
+            _levelController = levelController;
             _gameFactory = gameFactory;
             _inputService = inputService;
             _gameStateMachine = gameStateMachine;
@@ -21,7 +23,9 @@ namespace Game.Source.GameFSM
         public void Enter()
         {
             _gameFactory.Player.TogglePlayerLogic(true);
-            _gameFactory.Player.GetComponent<PlayerMovement>().OnDestinationReached += EnableFireInput;
+            PlayerMovement playerMovement = _gameFactory.Player.GetComponent<PlayerMovement>();
+            playerMovement.SetDestination(_levelController.CurrentLocation.LocationWayPoint.Position);
+            playerMovement.OnDestinationReached += EnableFireInput;
 
         }
 

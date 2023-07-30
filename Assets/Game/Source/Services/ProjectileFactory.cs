@@ -9,22 +9,15 @@ namespace Game.Source.Services
     {
         Projectile GetOrCreateProjectile(Vector3 spawnPoint, Quaternion rotation);
     }
-    
-    public class ProjectileFactory : PooledFactory<Projectile>, IProjectileFactory, IInitializableService
+
+    public class ProjectileFactory : PooledFactory<Projectile>, IProjectileFactory
     {
-        private Projectile _projectilePrefab;
-        
-        private IAssetProvider _assetProvider;
+        private IGameFactory _gameFactory;
 
         [Inject]
-        public void Construct(IAssetProvider assetProvider)
+        public void Construct(IGameFactory gameFactory)
         {
-            _assetProvider = assetProvider;
-        }
-        
-        public void Initialize()
-        {
-            _projectilePrefab = _assetProvider.LoadAsset<Projectile>(GameConstants.Assets.ProjectilePath);
+            _gameFactory = gameFactory;
         }
 
         public Projectile GetOrCreateProjectile(Vector3 spawnPoint, Quaternion rotation)
@@ -38,7 +31,7 @@ namespace Game.Source.Services
 
         protected override Projectile Create()
         {
-            return GameObject.Instantiate(_projectilePrefab);
+            return _gameFactory.InstancePrefabInjected<Projectile>(GameConstants.Assets.ProjectilePath);
         }
 
         protected override void Release(Projectile obj)

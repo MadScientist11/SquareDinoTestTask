@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.acegikmo.mathfs": {
+      "version": "https://github.com/FreyaHolmer/Mathfs.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "14115081cab77595dbe902d888c2de8f373ac3e1"
+    },
     "com.unity.cinemachine": {
       "version": "2.8.9",
       "depth": 0,
