@@ -1,5 +1,6 @@
 using Game.Source.GameFSM;
 using Game.Source.LevelLogic;
+using Game.Source.PlayerLogic;
 using Game.Source.Services;
 using UnityEngine;
 using VContainer;

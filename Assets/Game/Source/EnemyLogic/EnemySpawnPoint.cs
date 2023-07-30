@@ -7,10 +7,13 @@ namespace Game.Source.EnemyLogic
     {
         public Vector3 Position => transform.position;
         public Quaternion Rotation => transform.rotation;
+        [SerializeField] private Mesh _enemyMesh;
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawSphere(Position, 0.1f);
+            Gizmos.color = Color.red;
+            Gizmos.DrawMesh(_enemyMesh, Position, Quaternion.LookRotation(transform.right), Vector3.one*8);
         }
     }
 }
