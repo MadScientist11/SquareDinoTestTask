@@ -32,6 +32,7 @@ namespace Game.Source.Services
             Projectile projectile = Get(null);
             projectile.transform.position = spawnPoint;
             projectile.transform.rotation = rotation;
+            projectile.Show();
             return projectile;
         }
 
@@ -49,7 +50,6 @@ namespace Game.Source.Services
         protected override Projectile Get(Func<Projectile, bool> predicate)
         {
             Projectile projectile = base.Get(predicate);
-            projectile.Show();
             return projectile;
         }
     }

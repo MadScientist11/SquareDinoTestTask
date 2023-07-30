@@ -1,4 +1,5 @@
 ﻿using BattleCity.Source;
+using Game.Source.EnemyLogic;
 using Game.Source.PlayerLogic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ namespace Game.Source.Services
     public interface IGameFactory
     {
         Player CreatePlayer(Vector3 position, Quaternion rotation);
+        Enemy CreateEnemy(Vector3 spawnPointPosition, Quaternion spawnPointRotation);
     }
 
     public class GameFactory : IGameFactory
@@ -28,7 +30,13 @@ namespace Game.Source.Services
         {
             return InstancePrefabInjected<Player>(GameConstants.Assets.PlayerPath, position, rotation);
         }
-        
+
+        public Enemy CreateEnemy(Vector3 position, Quaternion rotation)
+        {
+            return InstancePrefabInjected<Enemy>(GameConstants.Assets.EnemyPath, position, rotation);
+
+        }
+
         private T InstancePrefab<T>(string path) where T : MonoBehaviour
         {
             T asset = _assetProvider.LoadAsset<T>(path);
