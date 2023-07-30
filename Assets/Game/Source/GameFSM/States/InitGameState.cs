@@ -10,11 +10,12 @@ namespace Game.Source.GameFSM
         private readonly GameStateMachine _gameStateMachine;
         private readonly IGameFactory _gameFactory;
         private readonly PlayerSpawnPoint _playerSpawnPoint;
-        private readonly Level _level;
+        private readonly ILevelController _levelController;
 
-        public InitGameState(GameStateMachine gameStateMachine, IGameFactory gameFactory, Level level, PlayerSpawnPoint spawnPoint)
+        public InitGameState(GameStateMachine gameStateMachine, IGameFactory gameFactory,
+            ILevelController levelController, PlayerSpawnPoint spawnPoint)
         {
-            _level = level;
+            _levelController = levelController;
             _playerSpawnPoint = spawnPoint;
             _gameFactory = gameFactory;
             _gameStateMachine = gameStateMachine;
@@ -22,32 +23,19 @@ namespace Game.Source.GameFSM
 
         public void Enter()
         {
-            InitPlayer();
-            CreateEnemies();
+            InitializePlayer();
+            _levelController.InitializeLevel();
             _gameStateMachine.SwitchState(GameFlow.MainScreenState);
         }
 
         public void Exit()
         {
-            
         }
 
-        private void InitPlayer()
+        private void InitializePlayer()
         {
             Player player = _gameFactory.CreatePlayer(_playerSpawnPoint.Position, _playerSpawnPoint.Rotation);
             player.TogglePlayerLogic(false);
-            _gameStateMachine.Player = player;
-        }
-
-        private void CreateEnemies()
-        {
-            foreach (Location levelLocation in _level.Locations)
-            {
-                foreach (EnemySpawnPoint spawnPoint in levelLocation.EnemySpawnPoints)
-                {
-                    _gameFactory.CreateEnemy(spawnPoint.Position, spawnPoint.Rotation);
-                }
-            }
         }
     }
 }

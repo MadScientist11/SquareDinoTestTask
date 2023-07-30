@@ -6,8 +6,6 @@ namespace Game.Source.GameFSM
 {
     public class GameStateMachine
     {
-        public Player Player { get; set; }
-        
         private readonly Dictionary<GameFlow, IGameState> _states;
         private readonly StatesFactory _statesFactory;
         private IGameState _currentState;

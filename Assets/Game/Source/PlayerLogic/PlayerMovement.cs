@@ -1,3 +1,4 @@
+using System;
 using Game.Source.LevelLogic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,6 +9,8 @@ namespace Game.Source.PlayerLogic
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerMovement : MonoBehaviour
     {
+        public event Action OnDestinationReached;
+        
         [SerializeField] private PlayerAnimator _playerAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
         private Vector3 _currentDestination;
@@ -33,6 +36,7 @@ namespace Game.Source.PlayerLogic
             if (IsDestinationReached() && !_wayPointReached)
             {
                 _wayPointReached = true;
+                OnDestinationReached?.Invoke();
                 _playerAnimator.PlayIdleAnimation();
             }
         }

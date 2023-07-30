@@ -3,10 +3,12 @@ using UnityEngine;
 
 namespace Game.Source.LevelLogic
 {
+   
     public class Level : MonoBehaviour
     {
         [field: SerializeField] public List<Location> Locations { get;  private set; }
 
+        //bounding box
         private void OnValidate()
         {
             Locations.Clear();
@@ -15,5 +17,6 @@ namespace Game.Source.LevelLogic
                 Locations.Add(location);
             }
         }
+        
     }
 }

@@ -13,6 +13,7 @@ namespace Game.Source.Services
 {
     public interface IGameFactory
     {
+        Player Player { get; }
         Player CreatePlayer(Vector3 position, Quaternion rotation);
         Enemy CreateEnemy(Vector3 spawnPointPosition, Quaternion spawnPointRotation);
         T CreateScreen<T>() where T : BaseScreen;
@@ -32,6 +33,8 @@ namespace Game.Source.Services
             { typeof(MainScreen), GameConstants.Assets.MainScreenPath },
         };
 
+        public Player Player { get; private set; }
+
 
         public GameFactory(IObjectResolver instantiator, IAssetProvider assetProvider)
         {
@@ -41,7 +44,8 @@ namespace Game.Source.Services
 
         public Player CreatePlayer(Vector3 position, Quaternion rotation)
         {
-            return InstancePrefabInjected<Player>(GameConstants.Assets.PlayerPath, position, rotation);
+            Player = InstancePrefabInjected<Player>(GameConstants.Assets.PlayerPath, position, rotation);
+            return Player;
         }
 
         public Enemy CreateEnemy(Vector3 position, Quaternion rotation)

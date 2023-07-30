@@ -15,6 +15,7 @@ namespace Game.Source.Scopes
         protected override void Configure(IContainerBuilder builder)
         {
             builder.Register<GameFactory>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<LevelController>(Lifetime.Singleton).AsImplementedInterfaces();
             
             RegisterStateMachine(builder);
 

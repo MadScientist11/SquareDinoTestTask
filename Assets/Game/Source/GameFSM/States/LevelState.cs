@@ -1,4 +1,5 @@
 ﻿using Game.Source.LevelLogic;
+using Game.Source.PlayerLogic;
 using Game.Source.Services;
 
 namespace Game.Source.GameFSM
@@ -6,25 +7,32 @@ namespace Game.Source.GameFSM
     public class LevelState : IGameState
     {
         private readonly GameStateMachine _gameStateMachine;
-        private readonly Level _level;
         private readonly IInputService _inputService;
+        private IGameFactory _gameFactory;
 
-        public LevelState(GameStateMachine gameStateMachine,  Level level,
+        public LevelState(GameStateMachine gameStateMachine, IGameFactory gameFactory,
             IInputService inputService)
         {
+            _gameFactory = gameFactory;
             _inputService = inputService;
-            _level = level;
             _gameStateMachine = gameStateMachine;
         }
 
         public void Enter()
         {
-            _inputService.EnablePlayerInput();
-            _gameStateMachine.Player.TogglePlayerLogic(true);
+            _gameFactory.Player.TogglePlayerLogic(true);
+            _gameFactory.Player.GetComponent<PlayerMovement>().OnDestinationReached += EnableFireInput;
+
         }
 
         public void Exit()
         {
+            _gameFactory.Player.GetComponent<PlayerMovement>().OnDestinationReached -= EnableFireInput;
+        }
+
+        private void EnableFireInput()
+        {
+            _inputService.EnablePlayerInput();
         }
     }
 }
