@@ -17,8 +17,8 @@ namespace Game.Source.GameFSM
             return gameState switch
             {
                 GameFlow.InitGame => _instantiator.Resolve<InitGameState>(),
-                GameFlow.MainScreenState => null,
-                GameFlow.StartLevel => null,
+                GameFlow.MainScreenState => _instantiator.Resolve<MainScreenState>(),
+                GameFlow.StartLevel => _instantiator.Resolve<LevelState>(),
                 GameFlow.CompleteLevel => null,
                 _ => throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null)
             };

@@ -13,6 +13,8 @@
             public const string PlayerPath = "Player";
             public const string ProjectilePath = "Projectile";
             public const string EnemyPath = "Enemy";
+            public const string UiRootPath = "UI/MainCanvas";
+            public const string MainScreenPath = "UI/MainScreen";
 
         }
 

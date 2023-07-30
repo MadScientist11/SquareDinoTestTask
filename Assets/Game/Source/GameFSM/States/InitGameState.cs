@@ -1,5 +1,6 @@
 using Game.Source.EnemyLogic;
 using Game.Source.LevelLogic;
+using Game.Source.PlayerLogic;
 using Game.Source.Services;
 
 namespace Game.Source.GameFSM
@@ -21,13 +22,21 @@ namespace Game.Source.GameFSM
 
         public void Enter()
         {
-            _gameFactory.CreatePlayer(_playerSpawnPoint.Position, _playerSpawnPoint.Rotation);
+            InitPlayer();
             CreateEnemies();
+            _gameStateMachine.SwitchState(GameFlow.MainScreenState);
         }
 
         public void Exit()
         {
             
+        }
+
+        private void InitPlayer()
+        {
+            Player player = _gameFactory.CreatePlayer(_playerSpawnPoint.Position, _playerSpawnPoint.Rotation);
+            player.TogglePlayerLogic(false);
+            _gameStateMachine.Player = player;
         }
 
         private void CreateEnemies()

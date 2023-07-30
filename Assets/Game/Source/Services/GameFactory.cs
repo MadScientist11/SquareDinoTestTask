@@ -1,10 +1,13 @@
-﻿using BattleCity.Source;
+﻿using System;
+using System.Collections.Generic;
+using BattleCity.Source;
 using Game.Source.EnemyLogic;
 using Game.Source.PlayerLogic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace Game.Source.Services
 {
@@ -12,12 +15,22 @@ namespace Game.Source.Services
     {
         Player CreatePlayer(Vector3 position, Quaternion rotation);
         Enemy CreateEnemy(Vector3 spawnPointPosition, Quaternion spawnPointRotation);
+        T CreateScreen<T>() where T : BaseScreen;
     }
+
 
     public class GameFactory : IGameFactory
     {
         private readonly IObjectResolver _instantiator;
         private readonly IAssetProvider _assetProvider;
+        private UiRoot _uiRoot;
+        
+        private const string UiRootPath = "MainCanvas";
+
+        private readonly Dictionary<Type, string> _screenPaths = new()
+        {
+            { typeof(MainScreen), GameConstants.Assets.MainScreenPath },
+        };
 
 
         public GameFactory(IObjectResolver instantiator, IAssetProvider assetProvider)
@@ -25,7 +38,7 @@ namespace Game.Source.Services
             _instantiator = instantiator;
             _assetProvider = assetProvider;
         }
-        
+
         public Player CreatePlayer(Vector3 position, Quaternion rotation)
         {
             return InstancePrefabInjected<Player>(GameConstants.Assets.PlayerPath, position, rotation);
@@ -34,8 +47,24 @@ namespace Game.Source.Services
         public Enemy CreateEnemy(Vector3 position, Quaternion rotation)
         {
             return InstancePrefabInjected<Enemy>(GameConstants.Assets.EnemyPath, position, rotation);
-
         }
+
+        public T CreateScreen<T>() where T : BaseScreen
+        {
+            GetOrCreateUIRoot();
+            return InstancePrefabInjected<T>(_screenPaths[typeof(T)], _uiRoot.transform);
+        }
+
+       
+        private UiRoot GetOrCreateUIRoot()
+        {
+            if (_uiRoot == null)
+                _uiRoot = InstancePrefab<UiRoot>(GameConstants.Assets.UiRootPath);
+
+            return _uiRoot;
+        }
+
+
 
         private T InstancePrefab<T>(string path) where T : MonoBehaviour
         {
@@ -81,7 +110,6 @@ namespace Game.Source.Services
             T asset = _assetProvider.LoadAsset<T>(path);
             asset.gameObject.SetActive(false);
             T instance = _instantiator.Instantiate(asset, parent);
-            SceneManager.MoveGameObjectToScene(instance.gameObject, SceneManager.GetActiveScene());
             instance.gameObject.SetActive(true);
             return instance;
         }

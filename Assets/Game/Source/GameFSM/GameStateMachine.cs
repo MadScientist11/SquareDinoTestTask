@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using Game.Source.PlayerLogic;
 using UnityEngine;
 
 namespace Game.Source.GameFSM
 {
     public class GameStateMachine
     {
+        public Player Player { get; set; }
+        
         private readonly Dictionary<GameFlow, IGameState> _states;
         private readonly StatesFactory _statesFactory;
         private IGameState _currentState;
@@ -13,12 +16,6 @@ namespace Game.Source.GameFSM
         {
             _statesFactory = statesFactory;
             _states = new Dictionary<GameFlow, IGameState>();
-            {
-                //{ GameFlow.InitGame, new InitGameState(this) },
-                //{ GameFlow.MainScreenState, new MainScreenState(this) },
-                //{ GameFlow.StartLevel, new StartLevelState(this) },
-                //{ GameFlow.CompleteLevel, new CompleteLevelState(this) },
-            };
         }
 
 

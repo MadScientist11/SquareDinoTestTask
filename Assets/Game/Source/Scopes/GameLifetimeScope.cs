@@ -16,13 +16,20 @@ namespace Game.Source.Scopes
         {
             builder.Register<GameFactory>(Lifetime.Singleton).AsImplementedInterfaces();
             
-            
-            builder.Register<GameStateMachine>(Lifetime.Singleton).AsSelf();
-            builder.Register<StatesFactory>(Lifetime.Singleton).AsSelf();
-            builder.Register<InitGameState>(Lifetime.Singleton).AsSelf();
-            
+            RegisterStateMachine(builder);
+
             builder.RegisterComponent(_playerSpawnPoint);
             builder.RegisterComponent(_level);
+        }
+
+        private void RegisterStateMachine(IContainerBuilder builder)
+        {
+            builder.Register<GameStateMachine>(Lifetime.Singleton).AsSelf();
+            builder.Register<StatesFactory>(Lifetime.Singleton).AsSelf();
+            
+            builder.Register<InitGameState>(Lifetime.Singleton).AsSelf();
+            builder.Register<MainScreenState>(Lifetime.Singleton).AsSelf();
+            builder.Register<LevelState>(Lifetime.Singleton).AsSelf();
         }
     }
 }
