@@ -299,15 +299,16 @@ GameObject:
   - component: {fileID: 6653957749237692993}
   - component: {fileID: -3137617809275436261}
   - component: {fileID: 7239681865349971812}
+  - component: {fileID: 7435069238255797781}
+  - component: {fileID: 5681709882496884195}
   - component: {fileID: 3168398564306157393}
-  - component: {fileID: 1543464339}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &772287643457740859
 Transform:
   m_ObjectHideFlags: 0
@@ -371,9 +372,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc26aa6894506a4c8d741e6ec563bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyAnimator: {fileID: 6653957749237692993}
-  _enemyCollider: {fileID: 3168398564306157393}
   _hpBar: {fileID: 6322660611865744573}
+--- !u!114 &7435069238255797781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143102716209052289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d23ea502de1973f4f8cb2f8e373ae7a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyHealth: {fileID: 7239681865349971812}
+  _ragdoll: {fileID: 5681709882496884195}
+  _hpBar: {fileID: 6322660611865744573}
+--- !u!114 &5681709882496884195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143102716209052289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c4a4a60c49f06a4282e4c3a082600f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 6653957749237692993}
 --- !u!65 &3168398564306157393
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -387,22 +414,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.35, y: 0.7, z: 0.35}
   m_Center: {x: 0, y: 0.35, z: 0}
---- !u!54 &1543464339
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 143102716209052289}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &159893613095508442
 GameObject:
   m_ObjectHideFlags: 0

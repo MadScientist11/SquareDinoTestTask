@@ -7,9 +7,9 @@ namespace Game.Source.UI
     {
         [SerializeField] private Image _healthImage;
         
-        public void SetValue(float normalizedValue)
+        public void SetValue(float currentValue, float maxValue)
         {
-            _healthImage.fillAmount = normalizedValue;
+            _healthImage.fillAmount = Mathf.Max(0, currentValue / maxValue);
         }
     }
 }
