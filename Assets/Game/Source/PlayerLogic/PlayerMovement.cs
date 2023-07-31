@@ -14,21 +14,28 @@ namespace Game.Source.PlayerLogic
         private Vector3 _currentDestination;
 
 
-        private bool _wayPointReached  = false;
+        private bool _wayPointReached = false;
         private IInputService _inputService;
+        private PlayerConfiguration _playerConfiguration;
 
         [Inject]
-        public void Construct(IInputService inputService)
+        public void Construct(IInputService inputService, IDataProvider dataProvider)
         {
             _inputService = inputService;
+            _playerConfiguration = dataProvider.PlayerConfig;
         }
-      
+
+        private void Start()
+        {
+            _navMeshAgent.speed = _playerConfiguration.Speed;
+        }
+
         private void Update()
         {
             if (IsDestinationReached() && !_wayPointReached)
             {
                 _wayPointReached = true;
-                
+
                 _inputService.EnablePlayerInput();
                 _playerAnimator.PlayIdleAnimation();
             }
@@ -38,7 +45,7 @@ namespace Game.Source.PlayerLogic
         {
             _navMeshAgent.destination = destination;
             _wayPointReached = false;
-            
+
             _inputService.DisablePlayerInput();
             _playerAnimator.PlayRunAnimation();
         }

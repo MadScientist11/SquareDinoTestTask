@@ -479,7 +479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnPosition: {fileID: 419838390}
-  _playerAttackCamera: {fileID: 94567292859831371}
+  _attackCooldown: 0
 --- !u!1 &1729987614442098285
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,12 +33,14 @@ namespace Game.Source.PlayerLogic
 
         private IInputService _inputService;
         private IProjectileFactory _projectileFactory;
+        private PlayerConfiguration _playerConfiguration;
 
 
         [Inject]
-        public void Construct(IProjectileFactory projectileFactory, IInputService inputService)
+        public void Construct(IProjectileFactory projectileFactory, IInputService inputService, IDataProvider dataProvider)
         {
-            _projectileFactory = projectileFactory;
+             _playerConfiguration = dataProvider.PlayerConfig;
+             _projectileFactory = projectileFactory;
             _inputService = inputService;
         }
 
@@ -52,11 +54,17 @@ namespace Game.Source.PlayerLogic
             _inputService.OnFireInputDetected -= LaunchProjectile;
         }
 
-        private void Update() => 
+        private void Update()
+        {
+            _attackCooldown -= Time.deltaTime;
             DebugPlayerAttack();
+        }
 
         private void LaunchProjectile()
         {
+            if(_attackCooldown > 0)
+                return;
+            
             Plane plane = new Plane(Vector3.up, _spawnPosition.position);
 
             Ray ray = Camera.main.ScreenPointToRay(_inputService.MousePosition);
@@ -67,11 +75,12 @@ namespace Game.Source.PlayerLogic
                 Vector3 vectorToHit = (hitPoint - _spawnPosition.position);
 
                 bool canThrowInTheDirection = Vector3.Dot(vectorToHit.normalized, _spawnPosition.forward) > 0;
-                if(!canThrowInTheDirection)
+                if (!canThrowInTheDirection)
                     return;
 
                 Projectile projectile = InitializeProjectile(vectorToHit);
                 ThrowProjectile(projectile, vectorToHit);
+                _attackCooldown = _playerConfiguration.AttackCooldown;
             }
         }
 
