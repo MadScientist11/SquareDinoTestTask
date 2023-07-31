@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 110068c56d59fd644800e4c247f92a7c, type: 3}
   m_Name: PlayerConfiguration
   m_EditorClassIdentifier: 
-  AttackCooldown: 0.7
+  AttackCooldown: 0.1
   Speed: 5
+  ThrowStrengthMultiplier: 2.5
+  ThrowTorqueMultiplier: 1000

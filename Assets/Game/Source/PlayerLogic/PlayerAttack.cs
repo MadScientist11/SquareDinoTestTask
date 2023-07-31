@@ -100,7 +100,7 @@ namespace Game.Source.PlayerLogic
             Vector3 direction = vectorToHit.normalized;
             float throwStrength = Mathf.Clamp(vectorToHit.magnitude, 2, 10);
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            rb.maxAngularVelocity = 25;
+            rb.maxAngularVelocity = 15;
             rb.AddForce(direction * throwStrength * _playerConfiguration.ThrowStrengthMultiplier, ForceMode.VelocityChange);
             rb.AddTorque(-projectile.transform.forward * _playerConfiguration.ThrowTorqueMultiplier, ForceMode.VelocityChange);
         }
