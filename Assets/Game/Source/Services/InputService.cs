@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Game.Source.Services
 {
-    public interface IInputService : IService
+    public interface IInputService 
     {
         event Action OnFireInputDetected;
         event Action OnUILeftClicked;

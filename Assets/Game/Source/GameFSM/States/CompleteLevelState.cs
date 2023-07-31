@@ -1,7 +1,6 @@
-﻿using BattleCity.Source;
-using Game.Source.Services;
+﻿using Game.Source.Services;
 
-namespace Game.Source.GameFSM
+namespace Game.Source.GameFSM.States
 {
     public class CompleteLevelState : IGameState
     {

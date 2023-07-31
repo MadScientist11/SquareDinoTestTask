@@ -1,6 +1,8 @@
 ﻿using Game.Source.Services;
+using Game.Source.Services.Factories;
+using Game.Source.UI;
 
-namespace Game.Source.GameFSM
+namespace Game.Source.GameFSM.States
 {
     public class MainScreenState : IGameState
     {

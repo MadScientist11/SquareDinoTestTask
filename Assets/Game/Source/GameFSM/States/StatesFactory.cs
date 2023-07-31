@@ -1,7 +1,7 @@
 using System;
 using VContainer;
 
-namespace Game.Source.GameFSM
+namespace Game.Source.GameFSM.States
 {
     public class StatesFactory
     {

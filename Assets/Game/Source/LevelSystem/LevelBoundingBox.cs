@@ -1,7 +1,7 @@
 using Freya;
 using UnityEngine;
 
-namespace Game.Source.LevelLogic
+namespace Game.Source.LevelSystem
 {
     public class LevelBoundingBox : MonoBehaviour
     {

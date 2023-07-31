@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Source.Services
+namespace Game.Source.UI
 {
     public class UiRoot : MonoBehaviour
     {

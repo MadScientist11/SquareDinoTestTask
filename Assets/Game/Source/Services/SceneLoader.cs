@@ -2,7 +2,7 @@ using UnityEngine.SceneManagement;
 
 namespace Game.Source.Services
 {
-    public interface ISceneLoader : IService
+    public interface ISceneLoader 
     {
         void LoadScene(string sceneName, System.Action onLoaded = null);
     }

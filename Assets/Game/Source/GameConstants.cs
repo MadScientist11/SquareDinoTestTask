@@ -1,4 +1,4 @@
-﻿namespace BattleCity.Source
+﻿namespace Game.Source
 {
     public static class GameConstants
     {

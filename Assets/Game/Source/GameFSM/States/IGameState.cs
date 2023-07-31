@@ -1,4 +1,4 @@
-namespace Game.Source.GameFSM
+namespace Game.Source.GameFSM.States
 {
     public interface IGameState
     {

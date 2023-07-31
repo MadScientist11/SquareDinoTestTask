@@ -1,7 +1,8 @@
 using Game.Source.PlayerLogic;
 using Game.Source.Services;
+using Game.Source.Services.Factories;
 
-namespace Game.Source.GameFSM
+namespace Game.Source.GameFSM.States
 {
     public class InitGameState : IGameState
     {

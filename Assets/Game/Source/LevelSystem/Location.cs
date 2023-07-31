@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using Game.Source.EnemyLogic;
 using Game.Source.Services;
+using Game.Source.Services.Factories;
 using UnityEngine;
 using VContainer;
 
-namespace Game.Source.LevelLogic
+namespace Game.Source.LevelSystem
 {
     public class Location : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Game.Source.Services
+namespace Game.Source.Services.Factories
 {
     public abstract class PooledFactory<T> where T : class, IPoolable<T>
     {

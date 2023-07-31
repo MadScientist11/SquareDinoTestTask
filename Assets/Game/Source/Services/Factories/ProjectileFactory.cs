@@ -1,11 +1,10 @@
 ﻿using System;
-using BattleCity.Source;
 using UnityEngine;
 using VContainer;
 
-namespace Game.Source.Services
+namespace Game.Source.Services.Factories
 {
-    public interface IProjectileFactory : IService
+    public interface IProjectileFactory 
     {
         Projectile GetOrCreateProjectile(Vector3 spawnPoint, Quaternion rotation);
     }

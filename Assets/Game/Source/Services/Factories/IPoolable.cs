@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Source.Services
+namespace Game.Source.Services.Factories
 {
     public interface IPoolable<T>
     {

@@ -1,31 +1,13 @@
 using System.Diagnostics;
+using Game.Source.DamageSystem;
 using Game.Source.Services;
+using Game.Source.Services.Factories;
 using UnityEngine;
 using VContainer;
 using Debug = UnityEngine.Debug;
 
 namespace Game.Source.PlayerLogic
 {
-    public interface IDamageProvider
-    {
-        int ProvideDamage();
-    }
-
-    public class PlayerAttackDamage : IDamageProvider
-    {
-        private int _damage;
-
-        public PlayerAttackDamage(int damage)
-        {
-            _damage = damage;
-        }
-
-        public int ProvideDamage()
-        {
-            return _damage;
-        }
-    }
-
     public class PlayerAttack : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPosition;
@@ -86,7 +68,7 @@ namespace Game.Source.PlayerLogic
 
         private Projectile InitializeProjectile(Vector3 vectorToHit)
         {
-            PlayerAttackDamage damageProvider = new PlayerAttackDamage(2);
+            CritChance damageProvider = new CritChance(new NoDamage(), 2);
             Projectile projectile =
                 _projectileFactory.GetOrCreateProjectile(_spawnPosition.position,
                     Quaternion.LookRotation(Vector3.up, vectorToHit.normalized) *

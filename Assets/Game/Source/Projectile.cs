@@ -1,30 +1,15 @@
 using System;
+using Game.Source.DamageSystem;
 using Game.Source.EnemyLogic;
-using Game.Source.LevelLogic;
+using Game.Source.LevelSystem;
 using Game.Source.PlayerLogic;
 using Game.Source.Services;
+using Game.Source.Services.Factories;
 using UnityEngine;
 using VContainer;
 
 namespace Game.Source
 {
-    public class ProjectileDamage : IDamageProvider
-    {
-        private IDamageProvider _baseDamageProvider;
-        private int _projectileDamage;
-
-        public ProjectileDamage(IDamageProvider baseDamageProvider, int projectileDamage)
-        {
-            _projectileDamage = projectileDamage;
-            _baseDamageProvider = baseDamageProvider;
-        }
-
-
-        public int ProvideDamage()
-        {
-           return _baseDamageProvider.ProvideDamage() + _projectileDamage;
-        }
-    }
     public class Projectile : MonoBehaviour, IPoolable<Projectile>
     {
         private IDamageProvider _projectileDamageProvider;

@@ -1,4 +1,3 @@
-using BattleCity.Source;
 using Game.Source.GameFSM;
 using UnityEngine;
 using UnityEngine.SceneManagement;

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using BattleCity.Source;
 using Game.Source.EnemyLogic;
 using Game.Source.PlayerLogic;
+using Game.Source.UI;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
-namespace Game.Source.Services
+namespace Game.Source.Services.Factories
 {
     public interface IGameFactory
     {

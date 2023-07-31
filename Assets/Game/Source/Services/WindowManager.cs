@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Source.Services.Factories;
+using Game.Source.UI;
 
 namespace Game.Source.Services
 {
-    public interface IWindowManager : IService
+    public interface IWindowManager 
     {
         T OpenScreen<T>() where T : BaseScreen;
         void RefreshCurrentWindow();

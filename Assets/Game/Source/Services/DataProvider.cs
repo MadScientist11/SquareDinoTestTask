@@ -1,4 +1,5 @@
-﻿using Game.Source.PlayerLogic;
+﻿using Game.Source.EnemyLogic;
+using Game.Source.PlayerLogic;
 
 namespace Game.Source.Services
 {

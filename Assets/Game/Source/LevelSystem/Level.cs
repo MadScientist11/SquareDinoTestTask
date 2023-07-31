@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Source.LevelLogic
+namespace Game.Source.LevelSystem
 {
     public class Level : MonoBehaviour
     {

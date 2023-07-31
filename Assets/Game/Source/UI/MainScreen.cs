@@ -1,7 +1,8 @@
 ﻿using System;
+using Game.Source.Services;
 using VContainer;
 
-namespace Game.Source.Services
+namespace Game.Source.UI
 {
     public class MainScreen : BaseScreen
     {

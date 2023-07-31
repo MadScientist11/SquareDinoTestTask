@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Source.Services
 {
-    public interface IAssetProvider : IService
+    public interface IAssetProvider
     {
         T LoadAsset<T>(string path) where T : Object;
     }

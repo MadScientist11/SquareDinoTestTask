@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class test : MonoBehaviour
+namespace Game.Scenes
 {
-    private void Update()
+    public class test : MonoBehaviour
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(Camera.main.transform.position, ray.direction *5);
-    }
+        private void Update()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(Camera.main.transform.position, ray.direction *5);
+        }
 
+    }
 }
