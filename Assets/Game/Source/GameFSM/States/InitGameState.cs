@@ -1,5 +1,3 @@
-using Game.Source.EnemyLogic;
-using Game.Source.LevelLogic;
 using Game.Source.PlayerLogic;
 using Game.Source.Services;
 

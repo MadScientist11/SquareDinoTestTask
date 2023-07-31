@@ -1,5 +1,4 @@
-﻿using Game.Source.LevelLogic;
-using Game.Source.PlayerLogic;
+﻿using Game.Source.PlayerLogic;
 using Game.Source.Services;
 
 namespace Game.Source.GameFSM
@@ -25,18 +24,12 @@ namespace Game.Source.GameFSM
             _gameFactory.Player.TogglePlayerLogic(true);
             PlayerMovement playerMovement = _gameFactory.Player.GetComponent<PlayerMovement>();
             playerMovement.SetDestination(_levelController.CurrentLocation.LocationWayPoint.Position);
-            playerMovement.OnDestinationReached += EnableFireInput;
-
         }
 
         public void Exit()
         {
-            _gameFactory.Player.GetComponent<PlayerMovement>().OnDestinationReached -= EnableFireInput;
+          
         }
 
-        private void EnableFireInput()
-        {
-            _inputService.EnablePlayerInput();
-        }
     }
 }

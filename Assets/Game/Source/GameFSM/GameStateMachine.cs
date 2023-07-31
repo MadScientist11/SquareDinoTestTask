@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Game.Source.PlayerLogic;
 using UnityEngine;
 
 namespace Game.Source.GameFSM

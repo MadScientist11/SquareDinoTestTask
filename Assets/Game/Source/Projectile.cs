@@ -1,5 +1,4 @@
 using System;
-using System.Security.Cryptography;
 using Game.Source.EnemyLogic;
 using Game.Source.LevelLogic;
 using Game.Source.PlayerLogic;

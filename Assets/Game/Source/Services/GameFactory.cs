@@ -4,7 +4,6 @@ using BattleCity.Source;
 using Game.Source.EnemyLogic;
 using Game.Source.PlayerLogic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using VContainer;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
