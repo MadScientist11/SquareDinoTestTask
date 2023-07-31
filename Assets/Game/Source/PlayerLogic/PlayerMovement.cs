@@ -17,10 +17,12 @@ namespace Game.Source.PlayerLogic
         private bool _wayPointReached = false;
         private IInputService _inputService;
         private PlayerConfiguration _playerConfiguration;
+        private ILevelController _levelController;
 
         [Inject]
-        public void Construct(IInputService inputService, IDataProvider dataProvider)
+        public void Construct(IInputService inputService, IDataProvider dataProvider, ILevelController levelController)
         {
+            _levelController = levelController;
             _inputService = inputService;
             _playerConfiguration = dataProvider.PlayerConfig;
         }
@@ -35,7 +37,8 @@ namespace Game.Source.PlayerLogic
             if (IsDestinationReached() && !_wayPointReached)
             {
                 _wayPointReached = true;
-
+                
+                _levelController.ScanCurrentLocation();
                 _inputService.EnablePlayerInput();
                 _playerAnimator.PlayIdleAnimation();
             }

@@ -7,5 +7,7 @@ namespace Game.Source.PlayerLogic
     {
         public float AttackCooldown;
         public float Speed;
+        public float ThrowStrengthMultiplier;
+        public float ThrowTorqueMultiplier;
     }
 }

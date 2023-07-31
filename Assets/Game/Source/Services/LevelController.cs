@@ -1,4 +1,5 @@
-﻿using Game.Source.GameFSM;
+﻿using Game.Source.EnemyLogic;
+using Game.Source.GameFSM;
 using Game.Source.LevelSystem;
 using Game.Source.PlayerLogic;
 using Game.Source.Services.Factories;
@@ -10,6 +11,7 @@ namespace Game.Source.Services
         void InitializeLevel();
         void NextLocation();
         Location CurrentLocation { get; }
+        void ScanCurrentLocation();
     }
 
     public class LevelController : ILevelController
@@ -45,6 +47,12 @@ namespace Game.Source.Services
             
             CurrentLocation = _level.Locations[_currentLocationIndex];
             _gameFactory.Player.GetComponent<PlayerMovement>().SetDestination(CurrentLocation.LocationWayPoint.Position);
+        }
+
+        public void ScanCurrentLocation()
+        {
+            if (CurrentLocation.LocationEnemies.Count == 0) 
+                NextLocation();
         }
 
         private void CreateEnemies()

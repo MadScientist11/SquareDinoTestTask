@@ -25,11 +25,12 @@ namespace Game.Source.GameFSM.States
             _gameFactory.Player.TogglePlayerLogic(true);
             PlayerMovement playerMovement = _gameFactory.Player.GetComponent<PlayerMovement>();
             playerMovement.SetDestination(_levelController.CurrentLocation.LocationWayPoint.Position);
+            
         }
 
         public void Exit()
         {
-          
+       
         }
 
     }

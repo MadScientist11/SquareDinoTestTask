@@ -40,8 +40,10 @@ namespace Game.Source
             if (other.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(_projectileDamageProvider);
-                ReleaseToPool();
+                return;
             }
+
+            ReleaseToPool();
         }
 
         public void Show()

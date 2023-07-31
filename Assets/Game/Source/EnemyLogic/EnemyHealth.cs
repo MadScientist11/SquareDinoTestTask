@@ -21,10 +21,12 @@ namespace Game.Source.EnemyLogic
 
         private float _currentHealth;
         private EnemyConfiguration _enemyConfiguration;
+        private ILevelController _levelController;
 
         [Inject]
-        public void Construct(IDataProvider dataProvider)
+        public void Construct(IDataProvider dataProvider, ILevelController levelController)
         {
+            _levelController = levelController;
             _enemyConfiguration = dataProvider.EnemyConfig;
         }
 
@@ -41,8 +43,14 @@ namespace Game.Source.EnemyLogic
 
         public void TakeDamage(IDamageProvider damageProvider)
         {
+            if(!TheEnemyIsFromCurrentLocation())
+                return;
+            
             _currentHealth -= damageProvider.ProvideDamage();
             HealthChanged?.Invoke(_currentHealth, _enemyConfiguration.MaxHealth);
         }
+
+        private bool TheEnemyIsFromCurrentLocation() => 
+            _levelController.CurrentLocation.LocationEnemies.Contains(this.GetComponent<Enemy>());
     }
 }

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Game.Source.DamageSystem;
 using Game.Source.Services;
 using Game.Source.Services.Factories;
+using Unity.VisualScripting;
 using UnityEngine;
 using VContainer;
 using Debug = UnityEngine.Debug;
@@ -11,18 +12,20 @@ namespace Game.Source.PlayerLogic
     public class PlayerAttack : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPosition;
-        [SerializeField] private float _attackCooldown;
+        [SerializeField] private Transform _planeOrigin;
 
         private IInputService _inputService;
         private IProjectileFactory _projectileFactory;
         private PlayerConfiguration _playerConfiguration;
 
+        private float _attackCooldown;
 
         [Inject]
-        public void Construct(IProjectileFactory projectileFactory, IInputService inputService, IDataProvider dataProvider)
+        public void Construct(IProjectileFactory projectileFactory, IInputService inputService,
+            IDataProvider dataProvider)
         {
-             _playerConfiguration = dataProvider.PlayerConfig;
-             _projectileFactory = projectileFactory;
+            _playerConfiguration = dataProvider.PlayerConfig;
+            _projectileFactory = projectileFactory;
             _inputService = inputService;
         }
 
@@ -44,27 +47,42 @@ namespace Game.Source.PlayerLogic
 
         private void LaunchProjectile()
         {
-            if(_attackCooldown > 0)
+            if (_attackCooldown > 0)
                 return;
-            
-            Plane plane = new Plane(Vector3.up, _spawnPosition.position);
 
             Ray ray = Camera.main.ScreenPointToRay(_inputService.MousePosition);
 
+            if (HitCollider(out var hit))
+            {
+                Vector3 vectorToHit = (hit.point - _spawnPosition.position);
+                PerformProjectileLaunch(vectorToHit);
+                return;
+            }
+
+            Plane plane = new Plane(Vector3.up, _planeOrigin.position);
             if (plane.Raycast(ray, out var enter))
             {
                 Vector3 hitPoint = ray.GetPoint(enter);
-                Vector3 vectorToHit = (hitPoint - _spawnPosition.position);
-
-                bool canThrowInTheDirection = Vector3.Dot(vectorToHit.normalized, _spawnPosition.forward) > 0;
-                if (!canThrowInTheDirection)
-                    return;
-
-                Projectile projectile = InitializeProjectile(vectorToHit);
-                ThrowProjectile(projectile, vectorToHit);
-                _attackCooldown = _playerConfiguration.AttackCooldown;
+                Vector3 vectorToHit = (hitPoint - _planeOrigin.position);
+                PerformProjectileLaunch(vectorToHit);
             }
+
+            bool HitCollider(out RaycastHit raycastHit) => 
+                Physics.Raycast(ray, out raycastHit, 25);
         }
+
+        private void PerformProjectileLaunch(Vector3 vectorToHit)
+        {
+            if (!CanThrowInTheDirection(vectorToHit.normalized))
+                return;
+
+            Projectile projectile = InitializeProjectile(vectorToHit);
+            ThrowProjectile(projectile, vectorToHit);
+            _attackCooldown = _playerConfiguration.AttackCooldown;
+        }
+
+        private bool CanThrowInTheDirection(Vector3 direction) =>
+            Vector3.Dot(direction, _spawnPosition.forward) > 0;
 
         private Projectile InitializeProjectile(Vector3 vectorToHit)
         {
@@ -82,15 +100,16 @@ namespace Game.Source.PlayerLogic
             Vector3 direction = vectorToHit.normalized;
             float throwStrength = Mathf.Clamp(vectorToHit.magnitude, 2, 10);
             Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            rb.AddForce(direction * throwStrength * 1.5f, ForceMode.VelocityChange);
-            rb.AddTorque(projectile.transform.forward * -15, ForceMode.Impulse);
+            rb.maxAngularVelocity = 25;
+            rb.AddForce(direction * throwStrength * _playerConfiguration.ThrowStrengthMultiplier, ForceMode.VelocityChange);
+            rb.AddTorque(-projectile.transform.forward * _playerConfiguration.ThrowTorqueMultiplier, ForceMode.VelocityChange);
         }
 
         [Conditional("UNITY_EDITOR")]
         private void DebugPlayerAttack()
         {
-            Plane plane = new Plane(Vector3.up, _spawnPosition.position);
-            DrawHelper.DrawPlane(_spawnPosition.position, Vector3.up);
+            Plane plane = new Plane(Vector3.up, _planeOrigin.position);
+            DrawHelper.DrawPlane(_planeOrigin.position, Vector3.up);
 
             Ray ray = Camera.main.ScreenPointToRay(_inputService.MousePosition);
 
