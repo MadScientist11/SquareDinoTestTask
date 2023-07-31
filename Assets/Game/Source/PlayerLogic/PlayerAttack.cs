@@ -29,6 +29,7 @@ namespace Game.Source.PlayerLogic
     public class PlayerAttack : MonoBehaviour
     {
         [SerializeField] private Transform _spawnPosition;
+        [SerializeField] private float _attackCooldown;
 
         private IInputService _inputService;
         private IProjectileFactory _projectileFactory;
@@ -65,15 +66,24 @@ namespace Game.Source.PlayerLogic
                 Vector3 hitPoint = ray.GetPoint(enter);
                 Vector3 vectorToHit = (hitPoint - _spawnPosition.position);
 
-                PlayerAttackDamage damageProvider = new PlayerAttackDamage(2);
-                Projectile projectile =
-                    _projectileFactory.GetOrCreateProjectile(_spawnPosition.position,
-                        Quaternion.LookRotation(Vector3.up, vectorToHit.normalized) *
-                        Quaternion.AngleAxis(90, Vector3.up));
-                projectile.Initialize(damageProvider);
+                bool canThrowInTheDirection = Vector3.Dot(vectorToHit.normalized, _spawnPosition.forward) > 0;
+                if(!canThrowInTheDirection)
+                    return;
 
+                Projectile projectile = InitializeProjectile(vectorToHit);
                 ThrowProjectile(projectile, vectorToHit);
             }
+        }
+
+        private Projectile InitializeProjectile(Vector3 vectorToHit)
+        {
+            PlayerAttackDamage damageProvider = new PlayerAttackDamage(2);
+            Projectile projectile =
+                _projectileFactory.GetOrCreateProjectile(_spawnPosition.position,
+                    Quaternion.LookRotation(Vector3.up, vectorToHit.normalized) *
+                    Quaternion.AngleAxis(90, Vector3.up));
+            projectile.Initialize(damageProvider);
+            return projectile;
         }
 
         private void ThrowProjectile(Projectile projectile, Vector3 vectorToHit)
