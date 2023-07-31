@@ -23,6 +23,8 @@ namespace Game.Source.Services
         public Projectile GetOrCreateProjectile(Vector3 spawnPoint, Quaternion rotation)
         {
             Projectile projectile = Get(null);
+            projectile.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            projectile.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             projectile.transform.position = spawnPoint;
             projectile.transform.rotation = rotation;
             projectile.Show();

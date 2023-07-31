@@ -1,6 +1,8 @@
+using System.Diagnostics;
 using Game.Source.Services;
 using UnityEngine;
 using VContainer;
+using Debug = UnityEngine.Debug;
 
 namespace Game.Source.PlayerLogic
 {
@@ -17,7 +19,7 @@ namespace Game.Source.PlayerLogic
         {
             _damage = damage;
         }
-        
+
         public int ProvideDamage()
         {
             return _damage;
@@ -49,18 +51,55 @@ namespace Game.Source.PlayerLogic
             _inputService.OnFireInputDetected -= LaunchProjectile;
         }
 
+        private void Update() => 
+            DebugPlayerAttack();
+
         private void LaunchProjectile()
         {
+            Plane plane = new Plane(Vector3.up, _spawnPosition.position);
+
             Ray ray = Camera.main.ScreenPointToRay(_inputService.MousePosition);
 
-            PlayerAttackDamage damageProvider = new PlayerAttackDamage(2);
-            
-            Projectile projectile =
-                _projectileFactory.GetOrCreateProjectile(_spawnPosition.position,
-                    Quaternion.LookRotation(ray.direction));
-            
-            projectile.Initialize(damageProvider);
+            if (plane.Raycast(ray, out var enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                Vector3 vectorToHit = (hitPoint - _spawnPosition.position);
 
+                PlayerAttackDamage damageProvider = new PlayerAttackDamage(2);
+                Projectile projectile =
+                    _projectileFactory.GetOrCreateProjectile(_spawnPosition.position,
+                        Quaternion.LookRotation(Vector3.up, vectorToHit.normalized) *
+                        Quaternion.AngleAxis(90, Vector3.up));
+                projectile.Initialize(damageProvider);
+
+                ThrowProjectile(projectile, vectorToHit);
+            }
+        }
+
+        private void ThrowProjectile(Projectile projectile, Vector3 vectorToHit)
+        {
+            Vector3 direction = vectorToHit.normalized;
+            float throwStrength = Mathf.Clamp(vectorToHit.magnitude, 2, 10);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            rb.AddForce(direction * throwStrength * 1.5f, ForceMode.VelocityChange);
+            rb.AddTorque(projectile.transform.forward * -15, ForceMode.Impulse);
+        }
+
+        [Conditional("UNITY_EDITOR")]
+        private void DebugPlayerAttack()
+        {
+            Plane plane = new Plane(Vector3.up, _spawnPosition.position);
+            DrawHelper.DrawPlane(_spawnPosition.position, Vector3.up);
+
+            Ray ray = Camera.main.ScreenPointToRay(_inputService.MousePosition);
+
+            if (plane.Raycast(ray, out var enter))
+            {
+                Vector3 hitPoint = ray.GetPoint(enter);
+                Debug.DrawLine(_spawnPosition.position, hitPoint, Color.red);
+            }
+
+            Debug.DrawRay(Camera.main.transform.position, ray.direction * 20);
         }
     }
 }

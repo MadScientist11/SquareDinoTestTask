@@ -44,8 +44,6 @@ namespace Game.Source
        
         private void Update()
         {
-            transform.Translate(-transform.forward*3 * Time.deltaTime);
-            
             if (!_levelBoundingBox.Contains(this.transform.position))
             {
                 ReleaseToPool();
