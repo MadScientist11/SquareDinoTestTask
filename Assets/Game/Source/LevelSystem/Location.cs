@@ -52,9 +52,7 @@ namespace Game.Source.LevelSystem
         {
             ActiveEnemiesCount--;
             LocationEnemies.Remove(enemy);
-
-            if (LocationEnemies.Count == 0) 
-                _levelController.NextLocation();
+            _levelController.ScanCurrentLocation();
         }
     }
 }

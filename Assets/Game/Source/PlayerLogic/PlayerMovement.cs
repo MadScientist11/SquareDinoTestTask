@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Game.Source.Services;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,6 +10,7 @@ namespace Game.Source.PlayerLogic
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerMovement : MonoBehaviour
     {
+        public event Action OnDestinationReached;
         [SerializeField] private PlayerAnimator _playerAnimator;
         [SerializeField] private NavMeshAgent _navMeshAgent;
         private Vector3 _currentDestination;
@@ -37,10 +39,10 @@ namespace Game.Source.PlayerLogic
             if (IsDestinationReached() && !_wayPointReached)
             {
                 _wayPointReached = true;
-                
-                _levelController.ScanCurrentLocation();
+
                 _inputService.EnablePlayerInput();
                 _playerAnimator.PlayIdleAnimation();
+                OnDestinationReached?.Invoke();
             }
         }
 
@@ -49,8 +51,15 @@ namespace Game.Source.PlayerLogic
             _navMeshAgent.destination = destination;
             _wayPointReached = false;
 
-            _inputService.DisablePlayerInput();
             _playerAnimator.PlayRunAnimation();
+            Debug.Log("Run");
+
+            _inputService.DisablePlayerInput();
+        }
+
+        private IEnumerator RunAnimationDelay()
+        {
+            yield return new WaitForSeconds(0.05f);
         }
 
         private bool IsDestinationReached()

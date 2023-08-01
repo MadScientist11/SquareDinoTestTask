@@ -10,6 +10,7 @@ namespace Game.Source.GameFSM.States
         private readonly IInputService _inputService;
         private readonly IGameFactory _gameFactory;
         private readonly ILevelController _levelController;
+        private PlayerMovement _playerMovement;
 
         public LevelState(GameStateMachine gameStateMachine, IGameFactory gameFactory, ILevelController levelController,
             IInputService inputService)
@@ -23,14 +24,18 @@ namespace Game.Source.GameFSM.States
         public void Enter()
         {
             _gameFactory.Player.TogglePlayerLogic(true);
-            PlayerMovement playerMovement = _gameFactory.Player.GetComponent<PlayerMovement>();
-            playerMovement.SetDestination(_levelController.CurrentLocation.LocationWayPoint.Position);
+
+            _playerMovement = _gameFactory.Player.GetComponent<PlayerMovement>();
+            _playerMovement.OnDestinationReached += _levelController.OnNewLocationReached;
             
+            
+            _levelController.NextLocation();
         }
 
         public void Exit()
         {
-       
+            _playerMovement.OnDestinationReached -= _levelController.OnNewLocationReached;
+
         }
 
     }

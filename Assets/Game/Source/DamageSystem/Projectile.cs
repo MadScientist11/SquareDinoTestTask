@@ -2,8 +2,6 @@ using System;
 using Game.Source.DamageSystem;
 using Game.Source.EnemyLogic;
 using Game.Source.LevelSystem;
-using Game.Source.PlayerLogic;
-using Game.Source.Services;
 using Game.Source.Services.Factories;
 using UnityEngine;
 using VContainer;

@@ -6,18 +6,21 @@ namespace Game.Source.PlayerLogic
     public class PlayerAnimator : MonoBehaviour
     {
         [SerializeField] private Animator _playerAnimator;
+        
+        private static readonly int Run = Animator.StringToHash("Run");
 
         private const string IdleState = "Idle";
         private const string RunState = "Run";
         
         public void PlayIdleAnimation()
         {
-            _playerAnimator.Play(IdleState);
+            _playerAnimator.SetBool(Run, false);
         }
         
         public void PlayRunAnimation()
         {
-            _playerAnimator.Play(RunState);
+            _playerAnimator.SetBool(Run, true);
+
         }
     }
 }
