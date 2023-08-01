@@ -52,8 +52,6 @@ namespace Game.Source.PlayerLogic
             _wayPointReached = false;
 
             _playerAnimator.PlayRunAnimation();
-            Debug.Log("Run");
-
             _inputService.DisablePlayerInput();
         }
 
