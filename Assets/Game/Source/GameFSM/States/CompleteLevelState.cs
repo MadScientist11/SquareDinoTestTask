@@ -4,8 +4,8 @@ namespace Game.Source.GameFSM.States
 {
     public class CompleteLevelState : IGameState
     {
-        private GameStateMachine _gameStateMachine;
-        private ISceneLoader _sceneLoader;
+        private readonly GameStateMachine _gameStateMachine;
+        private readonly ISceneLoader _sceneLoader;
 
         public CompleteLevelState(GameStateMachine gameStateMachine, ISceneLoader sceneLoader)
         {

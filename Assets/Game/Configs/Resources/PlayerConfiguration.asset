@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackCooldown: 0.1
   Speed: 5
-  ThrowStrengthMultiplier: 2.5
-  ThrowTorqueMultiplier: 1000
+  ThrowStrengthMultiplier: 3
+  ThrowTorqueMultiplier: 100

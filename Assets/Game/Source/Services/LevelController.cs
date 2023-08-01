@@ -1,4 +1,4 @@
-﻿using Game.Source.EnemyLogic;
+﻿using System.Threading.Tasks;
 using Game.Source.GameFSM;
 using Game.Source.LevelSystem;
 using Game.Source.PlayerLogic;
@@ -9,7 +9,7 @@ namespace Game.Source.Services
     public interface ILevelController
     {
         void InitializeLevel();
-        void NextLocation();
+        Task NextLocation();
         Location CurrentLocation { get; }
         void ScanCurrentLocation();
     }
@@ -22,7 +22,7 @@ namespace Game.Source.Services
         
         private readonly Level _level;
         private readonly IGameFactory _gameFactory;
-        private GameStateMachine _gameStateMachine;
+        private readonly GameStateMachine _gameStateMachine;
 
         public LevelController(GameStateMachine gameStateMachine, IGameFactory gameFactory, Level level)
         {
@@ -37,10 +37,11 @@ namespace Game.Source.Services
             CreateEnemies();
         }
 
-        public void NextLocation()
+        public async Task NextLocation()
         {
             if (++_currentLocationIndex > _level.Locations.Count - 1)
             {
+                await Task.Delay(2000);
                 _gameStateMachine.SwitchState(GameFlow.CompleteLevel);
                 return;
             }
@@ -49,10 +50,10 @@ namespace Game.Source.Services
             _gameFactory.Player.GetComponent<PlayerMovement>().SetDestination(CurrentLocation.LocationWayPoint.Position);
         }
 
-        public void ScanCurrentLocation()
+        public async void ScanCurrentLocation()
         {
             if (CurrentLocation.LocationEnemies.Count == 0) 
-                NextLocation();
+                await NextLocation();
         }
 
         private void CreateEnemies()

@@ -1,6 +1,5 @@
 using System;
 using Game.Source.DamageSystem;
-using Game.Source.PlayerLogic;
 using Game.Source.Services;
 using Game.Source.UI;
 using UnityEngine;
